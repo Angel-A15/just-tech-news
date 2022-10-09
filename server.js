@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
 // turn on connection to db and server
-sequelize.sync({ force: false }).then(() => {
+//was supposed to restart express.js server after changing to true, but got error, will need to do
+sequelize.sync({ force: true }).then(() => {
   app.listen(PORT, () => console.log('Now listening'));
 });
