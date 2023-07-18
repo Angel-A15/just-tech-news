@@ -5,6 +5,7 @@ const { Post, User, Comment, Vote } = require('../models');
 
 router.get('/', (req, res) => {
   console.log('======================');
+
   Post.findAll({
     attributes: [
       'id',
@@ -28,30 +29,44 @@ router.get('/', (req, res) => {
       }
     ]
   })
+  
     .then(dbPostData => {
       // pass a single post object into the homepage template
-      // console.log(dbPostData[0]);
+      console.log(dbPostData[0]);
+      
+      // res.render('homepage', dbPostData[0]); originl working
+      // new with issue
       const posts = dbPostData.map(post => post.get({ plain: true }));
-      res.render('homepage', {
+      res.render('homepage', { posts });
 
-        id: 1,
-        post_url: 'https://handlebarsjs.com/guide/',
-        title: 'Handlebars Docs',
-        created_at: new Date(),
-        vote_count: 10,
-        comments: [{}, {}],
+      // const posts = dbPostData.map(post => post.get({ plain: true }));
+      
+      // res.render('homepage', {
 
-        user: {
-          username: 'test_user'
-        }
-        
-       });
+      //   id: 1,
+      //   post_url: 'https://handlebarsjs.com/guide/',
+      //   title: 'Handlebars Docs',
+      //   created_at: new Date(),
+      //   vote_count: 10,
+      //   comments: [{}, {}],
+
+      //   user: {
+      //     username: 'test_user'
+      //   }
+
+      //  });
     })
+      // .then(dbPostData => {
+      //   // pass a single post object into the homepage template
+      //   res.render('homepage', dbPostData[0]);
+      // })
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
 });
+
+
 
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
