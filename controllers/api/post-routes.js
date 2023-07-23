@@ -6,6 +6,7 @@ const withAuth = require('../../utils/auth');
 // get all users
 router.get('/', (req, res) => {
   console.log('======================');
+  
   Post.findAll({
     attributes: [
       'id',
@@ -14,6 +15,7 @@ router.get('/', (req, res) => {
       'created_at',
       [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
     ],
+    // organizes posts from recent to latest
     order: [['created_at', 'DESC']],
     include: [
       {
@@ -93,16 +95,12 @@ router.post('/', withAuth, (req, res) => {
 
 // PUT /api/posts/upvote
 router.put('/upvote', withAuth, (req, res) => {
-  // make sure the session exists first
-  if (req.session) {
-    // pass session id along with all destructured properties on req.body
-    Post.upvote({ ...req.body, user_id: req.session.user_id }, { Vote, Comment, User })
-      .then(updatedVoteData => res.json(updatedVoteData))
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  }
+  Post.upvote({ ...req.body, user_id: req.session.user_id }, { Vote, Comment, User })
+    .then(updatedVoteData => res.json(updatedVoteData))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 router.put('/:id', withAuth, (req, res) => {

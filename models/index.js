@@ -12,6 +12,8 @@ Post.belongsTo(User, {
     foreignKey: 'user_id'
 });
 
+// belongs to many allows models to query each others
+// information in the context of a vote
 User.belongsToMany(Post, {
 through: Vote,
 as: 'voted_posts',
@@ -24,6 +26,8 @@ as: 'voted_posts',
     foreignKey: 'post_id'
 });
 
+// belongs to allows a direct relationship the models
+// and displays a total count of votes per post
 Vote.belongsTo(User, {
     foreignKey: 'user_id'
 });
