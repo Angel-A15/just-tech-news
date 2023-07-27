@@ -1,17 +1,5 @@
 {{>post-info post}}
 
-<form class="comment-form">
-  <div>
-    <textarea name="comment-body"></textarea>
-  </div>
-
-  <div>
-    <button type="submit">add comment</button>
-    <button type="button" class="upvote-btn">upvote</button>
-  </div>
-</form>
-
-
 {{#if loggedIn}}
 <form class="comment-form">
   <div>
@@ -28,6 +16,9 @@
 {{> comments post.comments}}
 
 {{#if loggedIn}}
-<script src="/javascript/comment.js"></script>
-<script src="/javascript/upvote.js"></script>
+{{!-- <script src="/javascript/comment.js"></script>
+<script src="/javascript/upvote.js"></script> --}}
+
+<script src="/public/javascript/comment.js"></script>
+<script src="/public/javascript/upvote.js"></script>
 {{/if}}
